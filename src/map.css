@@ -1,0 +1,20 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#map {
+  position: fixed !important;
+  left: 0;
+  bottom: 0;
+  height: 60%;
+  width: 100%;
+}
+.holder {
+  position: relative;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: inline-flex;
+  height: 100%;
+}
