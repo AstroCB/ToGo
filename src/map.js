@@ -1,4 +1,4 @@
-var map, lat, long, homeMarker;
+var map, lat, long, homeMarker, finalMarker;
 
 function initMap() {
     getLocation();
@@ -7,7 +7,7 @@ function initMap() {
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(locatePosition, function() {
-          createMap();
+            createMap();
         });
     } else {
         createMap();
@@ -39,16 +39,28 @@ function createMap(lat, long) {
         zoom: 15
     });
     map = newMap;
-    homeMarker = createMarker(map.center.lat(), map.center.lng());
+    homeMarker = createMarker(map.center.lat(), map.center.lng(), "from.png");
+    finalMarker = createMarker(map.center.lat() + randomSmallValue(), map.center.lng() + randomSmallValue(), "to.png");
 }
 
-function createMarker(lat, long) {
+function createMarker(lat, long, image) {
     var mark = new google.maps.Marker({
         position: {
             lat: lat,
             lng: long
         },
-        map: map
+        map: map,
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        icon: image,
     });
     return mark;
+}
+
+function randomSmallValue() {
+  var rand = Math.random() * 0.006 + 0.003, decider = Math.random();
+  if(decider <= 0.5) {
+    rand *= -1;
+  }
+  return rand;
 }
