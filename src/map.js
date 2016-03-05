@@ -52,3 +52,9 @@ function createMarker(lat, long) {
     });
     return mark;
 }
+
+function setNewHome(lat, long) {
+  homeMarker.setMap(null); // Removes marker from map
+}
+
+document.getElementById("map").addEventListener("click", setNewHome, false);
