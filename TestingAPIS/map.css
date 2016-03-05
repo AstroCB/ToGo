@@ -4,5 +4,8 @@ html, body {
   padding: 0;
 }
 #map {
-  height: 100%;
+  position: fixed !important;
+  bottom: 0;
+  height: 95%;
+  width: 100%;
 }
