@@ -2,6 +2,9 @@ var map, lat, long, homeMarker, finalMarker;
 
 function initMap() {
     getLocation();
+    $("#datepicker").datepicker({
+      minDate: 0
+    });
 }
 
 function getLocation() {
@@ -40,7 +43,15 @@ function createMap(lat, long) {
     });
     map = newMap;
     homeMarker = createMarker(map.center.lat(), map.center.lng(), "from.png");
-    finalMarker = createMarker(map.center.lat() + randomSmallValue(), map.center.lng() + randomSmallValue(), "to.png");
+    document.getElementById("from").value = map.center.lat() + ", " + map.center.lng();
+
+    var randLat = map.center.lat() + randomSmallValue(),
+        randLong = map.center.lng() + randomSmallValue();
+    finalMarker = createMarker(randLat, randLong, "to.png");
+    document.getElementById("to").value = randLat + ", " + randLong;
+
+    homeMarker.addListener("dragend", homeDragEnded);
+    finalMarker.addListener("dragend", finalDragEnded);
 }
 
 function createMarker(lat, long, image) {
@@ -52,15 +63,38 @@ function createMarker(lat, long, image) {
         map: map,
         draggable: true,
         animation: google.maps.Animation.DROP,
-        icon: image,
+        icon: image
     });
     return mark;
 }
 
 function randomSmallValue() {
-  var rand = Math.random() * 0.006 + 0.003, decider = Math.random();
-  if(decider <= 0.5) {
-    rand *= -1;
-  }
-  return rand;
+    var rand = Math.random() * 0.006 + 0.003,
+        decider = Math.random();
+    if (decider <= 0.5) {
+        rand *= -1;
+    }
+    return rand;
+}
+
+function homeDragEnded(e) {
+    document.getElementById("from").value = e.latLng.lat() + ", " + e.latLng.lng();
+}
+
+function finalDragEnded(e) {
+    document.getElementById("to").value = e.latLng.lat() + ", " + e.latLng.lng();
+}
+
+function getDirections() {
+    var req = {
+        origin: "Chicago, IL",
+        destination: "Los Angeles, CA",
+        provideRouteAlternatives: false,
+        travelMode: google.maps.TravelMode.DRIVING,
+        drivingOptions: {
+            departureTime: new Date(),
+            trafficModel: google.maps.TrafficModel.PESSIMISTIC
+        },
+        unitSystem: UnitSystem.IMPERIAL
+    };
 }

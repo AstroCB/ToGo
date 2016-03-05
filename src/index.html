@@ -2,54 +2,44 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR-IZFnALoeXLkSfRl746FrqlNZF4bO4&libraries=visualization&callback=initMap"></script>
-    <script type="text/javascript" src="map.js"></script>
-    <link rel="stylesheet" type="text/css" href="map.css" />
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
-    <!-- <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR-IZFnALoeXLkSfRl746FrqlNZF4bO4&libraries=visualization&callback=initMap"></script>
+  <script type="text/javascript" src="map.js"></script>
 
+  <link rel="stylesheet" type="text/css" media="all" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/smoothness/jquery-ui.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="map.css" />
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <title>ToGo</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row text-center">
-            <h1>ToGo</h1>
-        </div>
-        <div class="row">
-            <div class="text-center col-md-6">
-                <input type="text" id="to" placeholder="To">
-            </div>
-            <div class="text-center col-md-6">
-                <input type="text" id="from" placeholder="From">
-            </div>
-        </div>
-        <!-- <div class="row holder"> -->
-        <!-- </div> -->
-
+  <div class="container">
+    <div class="row text-center">
+      <h1>ToGo</h1>
     </div>
-    <br>
-    <div id="mapHolder">
-            <div id="map"></div>
+    <div class="row">
+      <div class="text-center col-md-6">
+        <input type="text" id="from" placeholder="From" />
+      </div>
+      <div class="text-center col-md-6">
+        <input type="text" id="to" placeholder="To" />
+      </div>
+      <div class="text-center col-md-6">
+        <input class="ll-skin-lugo" id="datepicker" type="date" />
+      </div>
     </div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!-- <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  </div>
+  <br>
+  <div id="mapHolder">
+    <div id="map"></div>
+  </div>
 </body>
 
 </html>
