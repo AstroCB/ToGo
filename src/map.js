@@ -6,7 +6,9 @@ function initMap() {
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(locatePosition);
+        navigator.geolocation.getCurrentPosition(locatePosition, function() {
+          createMap();
+        });
     } else {
         createMap();
     }
