@@ -1,11 +1,32 @@
 function initMap() {
-  // Create a map object and specify the DOM element for display.
+    createMap()
+    getLocation();
+}
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(locatePosition);
+    }
+}
+
+function locatePosition(position) {
+  createMap(position.coords.latitude, position.coords.longitude);
+}
+
+function createMap(lat, long) {
+  if(!lat) {
+    lat = 39.290385;
+  }
+  if(!long) {
+    long = -76.612189;
+  }
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {
-      lat: -34.397,
-      lng: 150.644
-    },
-    scrollwheel: false,
-    zoom: 8
+      center: {
+          lat: lat,
+          lng: long
+      },
+      scrollwheel: true,
+      zoom: 15
   });
+  return map;
 }
