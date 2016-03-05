@@ -1,4 +1,4 @@
-var map, lat, long, homeMarker;
+var map, lat, long, homeMarker, homeListener, finalMarker, finalListener;
 
 function initMap() {
     getLocation();
@@ -7,7 +7,7 @@ function initMap() {
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(locatePosition, function() {
-          createMap();
+            createMap();
         });
     } else {
         createMap();
@@ -40,6 +40,7 @@ function createMap(lat, long) {
     });
     map = newMap;
     homeMarker = createMarker(map.center.lat(), map.center.lng());
+    finalListener = map.addListener("click", setFinal, false);
 }
 
 function createMarker(lat, long) {
@@ -48,13 +49,32 @@ function createMarker(lat, long) {
             lat: lat,
             lng: long
         },
-        map: map
+        map: map,
+        draggable: true
     });
     return mark;
 }
 
-function setNewHome(lat, long) {
-  homeMarker.setMap(null); // Removes marker from map
+function setNewHome(e) {
+    homeMarker.setMap(null); // Removes marker from map
+    homeMarker = createMarker(e.latLng.lat(), e.latLng.lng());
+    homeListener.remove();
 }
 
-document.getElementById("map").addEventListener("click", setNewHome, false);
+function setFinal(e) {
+  finalMarker = createMarker(e.latLng.lat(), e.latLng.lng());
+  finalListener.remove();
+}
+
+function setNewFinal(e) {
+  setFinal(e)
+  finalMarker.setMap(null);
+}
+
+function listenForChanges(name) {
+    if (name === "home") {
+        homeListener = map.addListener("click", setNewHome, false);
+    } else {
+        finalListener = map.addListener("click", setNewFinal, false);
+    }
+}
