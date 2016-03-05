@@ -7,9 +7,6 @@ function initMap() {
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(locatePosition);
-        setTimeout(function() {
-          createMarker(map.center.lat(), map.center.lng());
-        }, 1500);
     } else {
         createMap();
     }
@@ -40,14 +37,16 @@ function createMap(lat, long) {
         zoom: 15
     });
     map = newMap;
+    homeMarker = createMarker(map.center.lat(), map.center.lng());
 }
 
 function createMarker(lat, long) {
-    homeMarker = new google.maps.Marker({
+    var mark = new google.maps.Marker({
         position: {
             lat: lat,
             lng: long
         },
         map: map
     });
+    return mark;
 }
