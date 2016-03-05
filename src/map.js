@@ -1,4 +1,4 @@
-var map, lat, long, homeMarker, homeListener, finalMarker, finalListener;
+var map, lat, long, homeMarker, finalMarker;
 
 function initMap() {
     getLocation();
@@ -39,42 +39,28 @@ function createMap(lat, long) {
         zoom: 15
     });
     map = newMap;
-    homeMarker = createMarker(map.center.lat(), map.center.lng());
-    finalListener = map.addListener("click", setFinal, false);
+    homeMarker = createMarker(map.center.lat(), map.center.lng(), "from.png");
+    finalMarker = createMarker(map.center.lat() + randomSmallValue(), map.center.lng() + randomSmallValue(), "to.png");
 }
 
-function createMarker(lat, long) {
+function createMarker(lat, long, image) {
     var mark = new google.maps.Marker({
         position: {
             lat: lat,
             lng: long
         },
         map: map,
-        draggable: true
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        icon: image,
     });
     return mark;
 }
 
-function setNewHome(e) {
-    homeMarker.setMap(null); // Removes marker from map
-    homeMarker = createMarker(e.latLng.lat(), e.latLng.lng());
-    homeListener.remove();
-}
-
-function setFinal(e) {
-  finalMarker = createMarker(e.latLng.lat(), e.latLng.lng());
-  finalListener.remove();
-}
-
-function setNewFinal(e) {
-  setFinal(e)
-  finalMarker.setMap(null);
-}
-
-function listenForChanges(name) {
-    if (name === "home") {
-        homeListener = map.addListener("click", setNewHome, false);
-    } else {
-        finalListener = map.addListener("click", setNewFinal, false);
-    }
+function randomSmallValue() {
+  var rand = Math.random() * 0.006 + 0.003, decider = Math.random();
+  if(decider <= 0.5) {
+    rand *= -1;
+  }
+  return rand;
 }
