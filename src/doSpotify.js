@@ -1,6 +1,5 @@
 function doSpotify(home, end) {
-  window.alert("Triggered");
-    if (gotLat == false) {
+    // if (!gotLat) {
         $.get("https://dl.dropboxusercontent.com/u/24397004/allPlacesLat.json", function(data) {
             allSpotifyPlaces = JSON.parse(data);
             gotLat = true;
@@ -13,9 +12,9 @@ function doSpotify(home, end) {
             }
             $("#spotify").html('<iframe src="https://embed.spotify.com/?uri=spotify:user:thesoundsofspotify:playlist:' + matched + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
         });
-    } else {
-        findClosest(home, end);
-    }
+    // } else {
+    //     findClosest(home, end);
+    // }
 }
 
 function findClosest(home, end) {
