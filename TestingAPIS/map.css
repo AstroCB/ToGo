@@ -4,8 +4,20 @@ html, body {
   padding: 0;
 }
 #map {
-  position: fixed !important;
-  bottom: 0;
-  height: 95%;
+  height: 100%;
   width: 100%;
+}
+#mapHolder {
+  width: 100%;
+  height: 76%
+}
+.holder {
+  height: 100%;
+  height: 100%;
+}
+label[for=datepicker] {
+  padding-top: 35px;
+}
+#ui-datepicker-div {
+  display: none;
 }
