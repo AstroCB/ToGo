@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{A Complete Solution for Taking A Trip}{2}{0}{1}
+\beamer@sectionintoc {2}{The Spotify Debacle}{4}{0}{2}
+\beamer@sectionintoc {3}{Overlay Tricks}{6}{0}{3}
+\beamer@sectionintoc {4}{another section}{12}{0}{4}

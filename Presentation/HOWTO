@@ -1,0 +1,12 @@
+!!NEEDS overlay-filter (in /bin folder or https://github.com/agoldst/tex/blob/master/bin/overlay_filter) in one of the folders in your path directory!!
+Write .md file
+	# gives sections which means the entire slide is just that text
+	## gives normal new slides with title
+	###... gives inner boxes (can look cool b can overflow)
+
+Run `make all` in outer directory
+	probably want `make clean` to leave only pdfs
+
+Will make notes page with interleaved notes and slides in notes/ directory and regular slides as wanted in slides/ directory
+
+

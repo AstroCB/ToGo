@@ -1,0 +1,25 @@
+\frametitle{Another slide}
+
+We wanted location-depended music for our users.
+
+We first thought we would perform a sentiment analysis on tweets
+mentioning the location name. + But, this gives a response like
+\texttt{happy:0.3} and \texttt{angry:0.6} and spotify does not allow
+that search
+
+\begin{block}{WITH SOME MORE}
+
+TESTING
+
+\begin{block}{and some test8ing}
+
+\emph{again} \note{
+
+A note on my list.
+
+}
+
+\end{block}
+
+\end{block}
+
