@@ -240,9 +240,8 @@ function getWeather() {
 }
 
 function getUber() {
-    var req = new XMLHttpRequest();
     $.ajax({
-            url: "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng()),
+        url: "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng(),
         dataType: "jsonp",
         headers: {
             "Authorization": "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR"
