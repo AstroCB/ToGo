@@ -3,7 +3,14 @@ function doSpotify(home, end) {
         $.get("https://dl.dropboxusercontent.com/u/24397004/allPlacesLat.json", function(data) {
             allSpotifyPlaces = JSON.parse(data);
             gotLat = true;
-            findClosest(home, end);
+            var closest = findClosest(home, end);
+            var matched = closest[1].match(/playlist\/(.*)/);
+            if (matched != null) {
+                matched = matched[1];
+            } else {
+                matched = "417C1CGBQOq0JYojlUkfaN";
+            }
+            $("#spotify").html('<iframe src="https://embed.spotify.com/?uri=spotify:user:thesoundsofspotify:playlist:' + matched + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
         });
     } else {
         findClosest(home, end);
@@ -22,7 +29,6 @@ function findClosest(home, end) {
             closestPlace = [allSpotifyPlaces[i].name, allSpotifyPlaces[i].href];
         }
     }
-    console.log("closest place is " + closestPlace[0])
     return closestPlace;
 
 }

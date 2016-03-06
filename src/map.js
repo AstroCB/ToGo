@@ -9,7 +9,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(locatePosition, function() {
             createMap();
         });
-    } else {
+    } else { // Not available – default loc is Baltimore
         createMap();
     }
 }
@@ -200,7 +200,6 @@ function runDependentFunctions() {
 }
 
 function getWeather() {
-    var date = $("#datepicker").datepicker("getDate");
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
@@ -214,48 +213,50 @@ function getWeather() {
         mm = '0' + mm;
     }
 
-    var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00";
-    var req = new XMLHttpRequest();
-    req.open("GET", url, true);
-    req.addEventListener("load", function() {
-        if (req.readyState == 4 && req.status == 200) {
-            var data = JSON.parse(req.responseText).daily.data[0];
+    $.ajax({
+        url: "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00",
+        dataType: "jsonp",
+        success: function(resp) {
+            var data = resp.daily.data[0];
             var vals = {
                 "Summary": data.summary,
                 "Visibility": data.visibility + " mi",
-                "Precipitation Chance": data.precipProbability * 100 + "%",
-                "Humidity": data.humidity * 100 + "%",
+                "Precipitation Chance": Math.round(data.precipProbability * 100) + "%",
+                "Humidity": Math.round(data.humidity * 100) + "%",
                 "High Temp": Math.round(data.temperatureMax) + "º",
                 "Low Temp": Math.round(data.temperatureMin) + "º"
             };
-
-            $("#weather").html("");
+            $("#weather").html("<strong>Weather</strong><br/>");
             for (var i in vals) {
                 var innerString = i + ": " + vals[i];
                 if (i === "Summary") {
                     innerString = vals[i];
                 }
+                $("#weather").show()
                 $("#weather").append("<span class='weatherItem'>" + innerString + "</span><br/>");
             }
         }
-    }, false);
-    req.send(null);
+    });
 }
 
 function getUber() {
-    var req = new XMLHttpRequest();
-    req.open("GET", "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng());
-    req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
-    req.addEventListener("load", function() {
-        var data = JSON.parse(req.responseText).products;
-        for (var i = 0; i < data.length; i++) {
-            var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
-            var price = Math.ceil(cost * 100) / 100 + "";
-            if (price.match(/^\d*\.\d$/m)) {
-                price += "0";
+    $("#uber").html("<strong>UBER</strong><br/>")
+    $.ajax({
+        url: "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng(),
+        headers: {
+            "Authorization": "Token KHO2piFO5f3U6VJD1OcEAwJDaIdrgNI8yMuhFXNs"
+        },
+        success: function(resp) {
+            var data = resp.products;
+            for (var i = 0; i < data.length; i++) {
+                var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
+                var price = Math.ceil(cost * 100) / 100 + "";
+                if (price.match(/^\d*\.\d$/m)) {
+                    price += "0";
+                }
+                $("#uber").show();
+                $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
             }
-            $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
         }
-    }, false)
-    req.send();
+    });
 }
