@@ -48,11 +48,17 @@ console.log("start")
     var inputStart =         document.getElementById('start-input')
     var inputEnd =         document.getElementById('end-input')
     var inputButton =         document.getElementById('dirButton')
+    var spotifyDiv =         document.getElementById('spotify')
+    var uberDiv =         document.getElementById('uber')
+    var weatherDiv =         document.getElementById('weather')
 
     var types = document.getElementById('type-selector');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputStart);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputEnd);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputButton);
+    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(spotifyDiv);
+    map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(uberDiv);
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(weatherDiv);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
     var autocompleteInput = new google.maps.places.Autocomplete(inputStart);
