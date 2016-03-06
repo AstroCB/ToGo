@@ -9,7 +9,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(locatePosition, function() {
             createMap();
         });
-    } else {
+    } else { // Not available – default loc is Baltimore
         createMap();
     }
 }
