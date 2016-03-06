@@ -1,4 +1,4 @@
-var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip, gotLat = false;
+var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip;
 
 function initMap() {
 console.log("started init")
@@ -219,13 +219,6 @@ function getDirections() {
             finalMarker.setMap(null);
         }
     });
-    runDependentFunctions();
-}
-
-function runDependentFunctions() {
-    getWeather();
-    getUber();
-    doSpotify(homeMarker, finalMarker);
 }
 
 function getWeather() {
@@ -249,16 +242,16 @@ function getWeather() {
     req.addEventListener("load", function() {
         if (req.readyState == 4 && req.status == 200) {
             var data = JSON.parse(req.responseText).daily.data[0];
+            console.log(data);
             var vals = {
                 "Summary": data.summary,
                 "Visibility": data.visibility + " mi",
                 "Precipitation Chance": data.precipProbability * 100 + "%",
                 "Humidity": data.humidity * 100 + "%",
-                "High Temp": Math.round(data.temperatureMax) + "º",
-                "Low Temp": Math.round(data.temperatureMin) + "º"
+                "High Temp": data.temperatureMax,
+                "Low Temp": data.temperatureMin
             };
 
-            $("#weather").html("");
             for (var i in vals) {
                 var innerString = i + ": " + vals[i];
                 if (i === "Summary") {
@@ -271,20 +264,16 @@ function getWeather() {
     req.send(null);
 }
 
-function getUber() {
+function uber() {
     var req = new XMLHttpRequest();
     req.open("GET", "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng());
     req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
-    // $("#uber").html("");
     req.addEventListener("load", function() {
         var data = JSON.parse(req.responseText).products;
         for (var i = 0; i < data.length; i++) {
+            console.log(data[i]);
             var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
-            var price = Math.ceil(cost * 100) / 100 + "";
-            if (price.match(/^\d*\.\d$/m)) {
-                price += "0";
-            }
-            $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
+            $("#uber").append("<div class='uber'><span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + Math.round(cost * 100) / 100 + "</span></div>");
         }
     }, false)
     req.send();

@@ -39,13 +39,18 @@
         <label for="datepicker">Departure Date</label>
         <br/>
         <input id="datepicker"/><br/><br/>
-        <button onclick="getDirections();">Go</button>
+        <button onclick="getDirections();">Directions</button>
       </div>
     </div>
   </div>
   <br/>
-  <div id="uber"></div>
+   <input id="start-input" class="controls" type="text"
+        placeholder="Enter a starting location">
+   <input id="end-input" class="controls" type="text"
+        placeholder="Enter a ending location">
 <div id="weather">
+  <div id="uber"></div>
+
 </div>
 <div id="mapHolder">
     <div id="map"></div>
