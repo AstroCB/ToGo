@@ -200,7 +200,6 @@ function runDependentFunctions() {
 }
 
 function getWeather() {
-    // var date = $("#datepicker").datepicker("getDate");
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
@@ -255,6 +254,7 @@ function getUber() {
                 if (price.match(/^\d*\.\d$/m)) {
                     price += "0";
                 }
+                $("#uber").show();
                 $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
             }
         }
