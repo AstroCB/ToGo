@@ -159,3 +159,13 @@ function getWeather() {
     }, false);
     req.send(null);
 }
+
+function uber() {
+  var req = new XMLHttpRequest();
+  req.open("GET", "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng());
+  req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
+  req.addEventListener("load", function() {
+    var data = JSON.parse(req.responseText).products;
+  }, false)
+  req.send();
+}

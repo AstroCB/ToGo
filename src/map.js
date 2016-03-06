@@ -119,3 +119,46 @@ function getDirections() {
         }
     });
 }
+
+function getWeather() {
+    var date = $("#datepicker").datepicker("getDate");
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+        dd = "0" + dd
+    }
+
+    if (mm < 10) {
+        mm = "0" + mm
+    }
+
+    var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00";
+    var req = new XMLHttpRequest();
+    req.open("GET", url, true);
+    req.addEventListener("load", function() {
+        if (req.readyState == 4 && req.status == 200) {
+            var data = JSON.parse(req.responseText).daily.data[0];
+            console.log(data);
+            var vals = {
+                "Summary": data.summary,
+                "Visibility": data.visibility + " mi",
+                "Precipitation Chance": data.precipProbability * 100 + "%",
+                "Humidity": data.humidity * 100 + "%",
+                "High Temp": data.temperatureMax,
+                "Low Temp": data.temperatureMin
+            };
+
+            for (var i in vals) {
+                var innerString = i + ": " + vals[i];
+                if (i === "Summary") {
+                    innerString = vals[i];
+                }
+                $("#weather").append("<span class='weatherItem'>" + innerString + "</span><br/>");
+            }
+        }
+    }, false);
+    req.send(null);
+}
