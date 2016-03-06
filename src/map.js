@@ -226,7 +226,7 @@ function getWeather() {
                 "High Temp": Math.round(data.temperatureMax) + "º",
                 "Low Temp": Math.round(data.temperatureMin) + "º"
             };
-            $("#weather").html("<b>Weather:</b><br>");
+            $("#weather").html("<strong>Weather</strong><br/>");
             for (var i in vals) {
                 var innerString = i + ": " + vals[i];
                 if (i === "Summary") {
@@ -240,7 +240,7 @@ function getWeather() {
 }
 
 function getUber() {
-    var req = new XMLHttpRequest();
+    $("#uber").html("<strong>UBER</strong><br/>")
     $.ajax({
         url: "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng(),
         headers: {
