@@ -222,7 +222,7 @@ function getWeather() {
             var vals = {
                 "Summary": data.summary,
                 "Visibility": data.visibility + " mi",
-                "Precipitation Chance": data.precipProbability * 100 + "%",
+                "Precipitation Chance": Math.round(data.precipProbability * 100) + "%",
                 "Humidity": Math.round(data.humidity * 100) + "%",
                 "High Temp": Math.round(data.temperatureMax) + "º",
                 "Low Temp": Math.round(data.temperatureMin) + "º"
