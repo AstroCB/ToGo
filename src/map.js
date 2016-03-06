@@ -247,8 +247,8 @@ function getUber() {
     headers: {
       "Authorization": "Token KHO2piFO5f3U6VJD1OcEAwJDaIdrgNI8yMuhFXNs"
     },
-    success: function() {
-        var data = JSON.parse(req.responseText).products;
+    success: function(resp) {
+        var data = resp.products;
         for (var i = 0; i < data.length; i++) {
             var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
             var price = Math.ceil(cost * 100) / 100 + "";
