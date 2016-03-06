@@ -1,7 +1,6 @@
 var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip, gotLat = false;
 
 function initMap() {
-    console.log("started init")
     getLocation();
 }
 
@@ -190,9 +189,16 @@ function getDirections() {
                 finalMarker.setMap(null);
             }
         });
+        runDependentFunctions();
     } else {
         sweetAlert("Oops...", "Please enter a starting and ending location", "error");
     }
+}
+
+function runDependentFunctions() {
+    getWeather();
+    getUber();
+    doSpotify(homeMarker, finalMarker);
 }
 
 function getWeather() {
