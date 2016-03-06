@@ -1,4 +1,5 @@
 function doSpotify(home, end) {
+  window.alert("Triggered");
     if (gotLat == false) {
         $.get("https://dl.dropboxusercontent.com/u/24397004/allPlacesLat.json", function(data) {
             allSpotifyPlaces = JSON.parse(data);
