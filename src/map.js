@@ -116,6 +116,13 @@ function getDirections() {
             finalMarker.setMap(null);
         }
     });
+    runDependentFunctions();
+}
+
+function runDependentFunctions() {
+  getWeather();
+  getUber();
+  doSpotify(homeMarker, finalMarker);
 }
 
 function getWeather() {
@@ -161,7 +168,7 @@ function getWeather() {
     req.send(null);
 }
 
-function uber() {
+function getUber() {
   var req = new XMLHttpRequest();
   req.open("GET", "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng());
   req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
