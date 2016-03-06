@@ -22,32 +22,35 @@
 </head>
 
 <body>
-  <div class="container">
-    <div class="row text-center">
-      <h1>ToGo</h1>
-    </div>
-    <div class="row">
-      <div class="text-center col-md-6">
-        <input type="text" id="from" placeholder="From" />
-      </div>
-      <div class="text-center col-md-6">
-        <input type="text" id="to" placeholder="To" />
-      </div>
-      </div>
-      <div class="row">
-      <div class="text-center ">
-        <label for="datepicker">Departure Date</label>
-        <br/>
-        <input id="datepicker"/><br/><br/>
-        <button onclick="getDirections();">Directions</button>
-      </div>
-    </div>
-  </div>
-  <br/>
+  <!-- <div class="container"> -->
+  <!--   <div class="row text-center"> -->
+  <!--     <h1>ToGo</h1> -->
+  <!--   </div> -->
+  <!--   <div class="row"> -->
+  <!--     <div class="text-center col-md-6"> -->
+  <!--       <input type="text" id="from" placeholder="From" /> -->
+  <!--     </div> -->
+  <!--     <div class="text-center col-md-6"> -->
+  <!--       <input type="text" id="to" placeholder="To" /> -->
+  <!--     </div> -->
+  <!--     </div> -->
+  <!--     <div class="row"> -->
+      <!-- <div class="text-center "> -->
+      <!--   <label for="datepicker">Departure Date</label> -->
+      <!--   <br/> -->
+        <!-- <input id="datepicker"/><br/><br/> -->
+        <!-- <button onclick="getDirections();">Directions</button> -->
+      <!-- </div> -->
+  <!--   </div> -->
+  <!-- </div> -->
+  <!-- <br/> -->
    <input id="start-input" class="controls" type="text"
         placeholder="Enter a starting location">
    <input id="end-input" class="controls" type="text"
         placeholder="Enter a ending location">
+<div onclick="getDirections()" id="dirButton" class="controls">
+Get Directions
+</div>
 <div id="weather">
   <div id="uber"></div>
 

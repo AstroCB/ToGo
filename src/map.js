@@ -3,10 +3,10 @@ var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip;
 function initMap() {
 console.log("started init")
     getLocation();
-    $("#datepicker").datepicker({
-        minDate: 0,
-        dateFormat: "mm/dd/yy"
-    }).datepicker("setDate", new Date());
+    // $("#datepicker").datepicker({
+    //     minDate: 0,
+    //     dateFormat: "mm/dd/yy"
+    // }).datepicker("setDate", new Date());
 }
 
 function getLocation() {
@@ -47,10 +47,12 @@ console.log("start")
     map = newMap;
     var inputStart =         document.getElementById('start-input')
     var inputEnd =         document.getElementById('end-input')
+    var inputButton =         document.getElementById('dirButton')
 
     var types = document.getElementById('type-selector');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputStart);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputEnd);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputButton);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
     var autocompleteInput = new google.maps.places.Autocomplete(inputStart);
@@ -206,7 +208,8 @@ function getDirections() {
         provideRouteAlternatives: false,
         travelMode: google.maps.TravelMode.DRIVING,
         drivingOptions: {
-            departureTime: $("#datepicker").datepicker("getDate"),
+            // departureTime: $("#datepicker").datepicker("getDate"),
+            departureTime: new Date(),
             trafficModel: google.maps.TrafficModel.PESSIMISTIC
         },
         unitSystem: google.maps.UnitSystem.IMPERIAL
@@ -222,7 +225,8 @@ function getDirections() {
 }
 
 function getWeather() {
-    var date = $("#datepicker").datepicker("getDate");
+    // var date = $("#datepicker").datepicker("getDate");
+    var date = new Date()
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
