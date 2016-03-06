@@ -1,10 +1,10 @@
-var map, lat, long, homeMarker, finalMarker;
+var map, lat, long, homeMarker, finalMarker, directionsDisplay;
 
 function initMap() {
     getLocation();
     $("#datepicker").datepicker({
-      minDate: 0
-    });
+        minDate: 0
+    }).datepicker("setDate", new Date());
 }
 
 function getLocation() {
@@ -42,6 +42,11 @@ function createMap(lat, long) {
         zoom: 15
     });
     map = newMap;
+
+    initializeServices();
+}
+
+function initializeServices() {
     homeMarker = createMarker(map.center.lat(), map.center.lng(), "from.png");
     document.getElementById("from").value = map.center.lat() + ", " + map.center.lng();
 
@@ -52,6 +57,10 @@ function createMap(lat, long) {
 
     homeMarker.addListener("dragend", homeDragEnded);
     finalMarker.addListener("dragend", finalDragEnded);
+
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById("directionsPanel"));
 }
 
 function createMarker(lat, long, image) {
@@ -86,15 +95,23 @@ function finalDragEnded(e) {
 }
 
 function getDirections() {
+    var directionsService = new google.maps.DirectionsService();
     var req = {
-        origin: "Chicago, IL",
-        destination: "Los Angeles, CA",
+        origin: homeMarker.position,
+        destination: finalMarker.position,
         provideRouteAlternatives: false,
         travelMode: google.maps.TravelMode.DRIVING,
         drivingOptions: {
-            departureTime: new Date(),
+            departureTime: $("#datepicker").datepicker("getDate"),
             trafficModel: google.maps.TrafficModel.PESSIMISTIC
         },
-        unitSystem: UnitSystem.IMPERIAL
+        unitSystem: google.maps.UnitSystem.IMPERIAL
     };
+    directionsService.route(req, function(result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(result);
+            homeMarker.setMap(null);
+            finalMarker.setMap(null);
+        }
+    });
 }
