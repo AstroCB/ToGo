@@ -218,6 +218,7 @@ function getWeather() {
     var req = new XMLHttpRequest();
     req.open("GET", url, true);
     req.addEventListener("load", function() {
+      console.log(req);
         if (req.readyState == 4 && req.status == 200) {
             var data = JSON.parse(req.responseText).daily.data[0];
             var vals = {
