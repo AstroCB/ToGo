@@ -4,9 +4,6 @@ html, body {
   padding: 0;
 }
 #map {
-  /* position: fixed !important; */
-  /* left: 0; */
-  /* /1* bottom: 0; *1/ */
   height: 100%;
   width: 100%;
 }
@@ -15,11 +12,7 @@ html, body {
   height: 76%
 }
 .holder {
-  /* position: relative; */
-  /* top: 0; */
   height: 100%;
-  /* width: 100%; */
-  /* display: inline-flex; */
   height: 100%;
 }
 label[for=datepicker] {

@@ -3,7 +3,8 @@ var map, lat, long, homeMarker, finalMarker, directionsDisplay;
 function initMap() {
     getLocation();
     $("#datepicker").datepicker({
-        minDate: 0
+        minDate: 0,
+        dateFormat: "mm/dd/yyyy"
     }).datepicker("setDate", new Date());
 }
 
