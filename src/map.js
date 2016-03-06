@@ -1,4 +1,6 @@
-var map, lat, long, homeMarker, finalMarker, directionsDisplay;
+var map, lat, long, homeMarker, finalMarker, directionsDisplay
+
+gotLat = false
 
 function initMap() {
     getLocation();
@@ -62,6 +64,7 @@ function initializeServices() {
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap(map);
     directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+    doSpotify(homeMarker, finalMarker)
 }
 
 function createMarker(lat, long, image) {
