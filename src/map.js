@@ -1,7 +1,4 @@
-var map, lat, long, homeMarker, finalMarker, directionsDisplay
-
-gotLat = false
-  var skycons = new Skycons({"color": "black"});
+var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip;
 
 function initMap() {
     getLocation();
@@ -65,8 +62,6 @@ function initializeServices() {
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap(map);
     directionsDisplay.setPanel(document.getElementById("directionsPanel"));
-    doSpotify(homeMarker, finalMarker)
-    getWeather()
 }
 
 function createMarker(lat, long, image) {
@@ -116,6 +111,7 @@ function getDirections() {
     directionsService.route(req, function(result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(result);
+            trip = result.routes[0].legs[0]
             homeMarker.setMap(null);
             finalMarker.setMap(null);
         }
@@ -126,38 +122,23 @@ function getWeather() {
     var date = $("#datepicker").datepicker("getDate");
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth() + 1;
+    var mm = today.getMonth() + 1; //January is 0!
     var yyyy = today.getFullYear();
 
     if (dd < 10) {
-        dd = "0" + dd
+        dd = '0' + dd
     }
 
     if (mm < 10) {
-        mm = "0" + mm
+        mm = '0' + mm
     }
 
-    // var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00";
-    // var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + encodeURIComponent("T12:00:00")
-    // var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + encodeURIComponent("T12:00:00") + "?callback=callback"
-
-    $.ajax({
-        url: "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + encodeURIComponent("T12:00:00") + "?callback=?",
-        // The name of the callback parameter, as specified by the YQL service
-        jsonp: "callback",
-type: 'GET',
-
-        // Tell jQuery we're expecting JSONP
-        dataType: "jsonp",
-
-        // Tell YQL what we want and that we want JSON
-        // Work with the response
-        success: function(response, b, c) {
-            console.log(response); // server response
-            console.log(b); // server response
-            console.log(c); // server response
-            daily = response.daily;
-            var data = daily.data[0];
+    var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00";
+    var req = new XMLHttpRequest();
+    req.open("GET", url, true);
+    req.addEventListener("load", function() {
+        if (req.readyState == 4 && req.status == 200) {
+            var data = JSON.parse(req.responseText).daily.data[0];
             console.log(data);
             var vals = {
                 "Summary": data.summary,
@@ -167,23 +148,30 @@ type: 'GET',
                 "High Temp": data.temperatureMax,
                 "Low Temp": data.temperatureMin
             };
-$("#weather").append("<canvas id='icon1' width='128' height='128'></canvas>")
-console.log(daily.data[0].icon.toUpperCase().replace(/-/g, "_"))
-                skycons.add("icon1", Skycons[daily.data[0].icon.toUpperCase().replace(/-/g, "_")]);
-skycons.play()
-            for (var i in vals) {
-                var innerString = i + ": " + vals[i];
-                if (i === "Summary") {
-                    innerString = vals[i];
-                }
-                console.log("going")
-                $("#weather").append("<span class='weatherItem'>" + innerString + "</span><br/>");
+
+            for(var i in vals) {
+              var innerString = i + ": " + vals[i];
+              if(i === "Summary") {
+                innerString = vals[i];
+              }
+              $("#weather").append("<span class='weatherItem'>" + innerString + "</span><br/>");
             }
-        },
-        error: function(err, b, c) {
-            console.log(err)
-            console.log(b)
-            console.log(c)
         }
-    });
+    }, false);
+    req.send(null);
+}
+
+function uber() {
+  var req = new XMLHttpRequest();
+  req.open("GET", "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng());
+  req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
+  req.addEventListener("load", function() {
+    var data = JSON.parse(req.responseText).products;
+    for(var i = 0; i < data.length; i++) {
+      console.log(data[i]);
+      var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
+      $("#uber").append("<div class='uber'><span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + Math.round(cost * 100)/100 + "</span></div>");
+    }
+  }, false)
+  req.send();
 }
