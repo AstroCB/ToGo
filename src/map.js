@@ -4,7 +4,7 @@ function initMap() {
     getLocation();
     $("#datepicker").datepicker({
         minDate: 0,
-        dateFormat: "mm/dd/yyyy"
+        dateFormat: "mm/dd/yy"
     }).datepicker("setDate", new Date());
 }
 
@@ -73,7 +73,7 @@ function createMarker(lat, long, image) {
         map: map,
         draggable: true,
         animation: google.maps.Animation.DROP,
-        icon: image
+        icon: "images/" + image
     });
     return mark;
 }
