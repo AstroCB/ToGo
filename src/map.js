@@ -217,7 +217,8 @@ function getWeather() {
     $.ajax({
         url: "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00",
         dataType: "jsonp",
-        success: function(req) {
+        success: function(resp) {
+          console.log(resp)
             var data = JSON.parse(req.responseText).daily.data[0];
             var vals = {
                 "Summary": data.summary,
