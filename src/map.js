@@ -200,7 +200,7 @@ function runDependentFunctions() {
 }
 
 function getWeather() {
-    var date = $("#datepicker").datepicker("getDate");
+    // var date = $("#datepicker").datepicker("getDate");
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
@@ -227,12 +227,13 @@ function getWeather() {
                 "High Temp": Math.round(data.temperatureMax) + "º",
                 "Low Temp": Math.round(data.temperatureMin) + "º"
             };
-            $("#weather").html("");
+            $("#weather").html("<b>Weather:</b><br>");
             for (var i in vals) {
                 var innerString = i + ": " + vals[i];
                 if (i === "Summary") {
                     innerString = vals[i];
                 }
+$("#weather").show()
                 $("#weather").append("<span class='weatherItem'>" + innerString + "</span><br/>");
             }
         }
