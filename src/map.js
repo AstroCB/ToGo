@@ -233,7 +233,7 @@ function getWeather() {
                 if (i === "Summary") {
                     innerString = vals[i];
                 }
-$("#weather").show()
+                $("#weather").show()
                 $("#weather").append("<span class='weatherItem'>" + innerString + "</span><br/>");
             }
         }
@@ -243,20 +243,20 @@ $("#weather").show()
 function getUber() {
     var req = new XMLHttpRequest();
     $.ajax({
-      url: "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng(),
-    headers: {
-      "Authorization": "Token KHO2piFO5f3U6VJD1OcEAwJDaIdrgNI8yMuhFXNs"
-    },
-    success: function(resp) {
-        var data = resp.products;
-        for (var i = 0; i < data.length; i++) {
-            var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
-            var price = Math.ceil(cost * 100) / 100 + "";
-            if (price.match(/^\d*\.\d$/m)) {
-                price += "0";
+        url: "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng(),
+        headers: {
+            "Authorization": "Token KHO2piFO5f3U6VJD1OcEAwJDaIdrgNI8yMuhFXNs"
+        },
+        success: function(resp) {
+            var data = resp.products;
+            for (var i = 0; i < data.length; i++) {
+                var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
+                var price = Math.ceil(cost * 100) / 100 + "";
+                if (price.match(/^\d*\.\d$/m)) {
+                    price += "0";
+                }
+                $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
             }
-            $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
         }
-      }
     });
 }
