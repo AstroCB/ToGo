@@ -245,7 +245,7 @@ function getUber() {
     $.ajax({
       url: "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng(),
     headers: {
-      "Authorization": "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR"
+      "Authorization": "Token KHO2piFO5f3U6VJD1OcEAwJDaIdrgNI8yMuhFXNs"
     },
     success: function() {
         var data = JSON.parse(req.responseText).products;
