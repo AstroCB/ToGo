@@ -10,6 +10,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR-IZFnALoeXLkSfRl746FrqlNZF4bO4&libraries=visualization&callback=initMap"></script>
+  <script type="text/javascript" src="skycons.js"></script>
   <script type="text/javascript" src="map.js"></script>
   <script type="text/javascript" src="doSpotify.js"></script>
 
@@ -43,10 +44,37 @@
     </div>
   </div>
   <br>
-  <div id="mapHolder">
+  <!-- <canvas id="icon1" width="128" height="128"></canvas> -->
+<div id="weather">
+
+</div>
+<div id="mapHolder">
     <div id="map"></div>
     <div id="directionsPanel"></div>
   </div>
 </body>
+<!--   // on Android, a nasty hack is needed: {"resizeClear": true} -->
+
+<!--   // you can add a canvas by it's ID... -->
+<!--   skycons.add("icon1", Skycons.PARTLY_CLOUDY_DAY); -->
+
+<!--   // ...or by the canvas DOM element itself. -->
+<!--   skycons.add(document.getElementById("icon2"), Skycons.RAIN); -->
+
+<!--   // if you're using the Forecast API, you can also supply -->
+<!--   // strings: "partly-cloudy-day" or "rain". -->
+
+<!--   // start animation! -->
+<!--   skycons.play(); -->
+
+<!--   // you can also halt animation with skycons.pause() -->
+
+<!--   // want to change the icon? no problem: -->
+<!--   skycons.set("icon1", Skycons.PARTLY_CLOUDY_NIGHT); -->
+
+<!--   // want to remove one altogether? no problem: -->
+<!--   skycons.remove("icon2"); -->
+<!-- </script> -->
+
 
 </html>

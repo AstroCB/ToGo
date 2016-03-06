@@ -19,7 +19,7 @@ function findClosest(home, end) {
     closestPlace = ["Topeka", "https://play.spotify.com/user/thesoundsofspotify/playlist/2VbihVrCxmOnMKtZHngFFH"]
     for (var i in allSpotifyPlaces) {
         tempDist = getDistanceFromLatLonInKm(endLat, endLng, allSpotifyPlaces[i].lat, allSpotifyPlaces[i].ln)
-        console.log(tempDist)
+        // console.log(tempDist)
         if (tempDist < smallestDist) {
             smallestDist = tempDist
             closestPlace = [allSpotifyPlaces[i].name, allSpotifyPlaces[i].href]

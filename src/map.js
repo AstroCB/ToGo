@@ -1,6 +1,7 @@
 var map, lat, long, homeMarker, finalMarker, directionsDisplay
 
 gotLat = false
+  var skycons = new Skycons({"color": "black"});
 
 function initMap() {
     getLocation();
@@ -65,6 +66,7 @@ function initializeServices() {
     directionsDisplay.setMap(map);
     directionsDisplay.setPanel(document.getElementById("directionsPanel"));
     doSpotify(homeMarker, finalMarker)
+    getWeather()
 }
 
 function createMarker(lat, long, image) {
@@ -135,12 +137,27 @@ function getWeather() {
         mm = "0" + mm
     }
 
-    var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00";
-    var req = new XMLHttpRequest();
-    req.open("GET", url, true);
-    req.addEventListener("load", function() {
-        if (req.readyState == 4 && req.status == 200) {
-            var data = JSON.parse(req.responseText).daily.data[0];
+    // var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00";
+    // var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + encodeURIComponent("T12:00:00")
+    // var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + encodeURIComponent("T12:00:00") + "?callback=callback"
+
+    $.ajax({
+        url: "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + encodeURIComponent("T12:00:00") + "?callback=?",
+        // The name of the callback parameter, as specified by the YQL service
+        jsonp: "callback",
+type: 'GET',
+
+        // Tell jQuery we're expecting JSONP
+        dataType: "jsonp",
+
+        // Tell YQL what we want and that we want JSON
+        // Work with the response
+        success: function(response, b, c) {
+            console.log(response); // server response
+            console.log(b); // server response
+            console.log(c); // server response
+            daily = response.daily;
+            var data = daily.data[0];
             console.log(data);
             var vals = {
                 "Summary": data.summary,
@@ -150,15 +167,23 @@ function getWeather() {
                 "High Temp": data.temperatureMax,
                 "Low Temp": data.temperatureMin
             };
-
+$("#weather").append("<canvas id='icon1' width='128' height='128'></canvas>")
+console.log(daily.data[0].icon.toUpperCase().replace(/-/g, "_"))
+                skycons.add("icon1", Skycons[daily.data[0].icon.toUpperCase().replace(/-/g, "_")]);
+skycons.play()
             for (var i in vals) {
                 var innerString = i + ": " + vals[i];
                 if (i === "Summary") {
                     innerString = vals[i];
                 }
+                console.log("going")
                 $("#weather").append("<span class='weatherItem'>" + innerString + "</span><br/>");
             }
+        },
+        error: function(err, b, c) {
+            console.log(err)
+            console.log(b)
+            console.log(c)
         }
-    }, false);
-    req.send(null);
+    });
 }
