@@ -246,7 +246,7 @@ function getUber() {
         dataType: "jsonp",
         headers: {
             "Authorization": "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR"
-        }
+        },
         success: function(resp) {
             var data = JSON.parse(req.responseText).products;
             for (var i = 0; i < data.length; i++) {
