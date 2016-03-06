@@ -214,10 +214,9 @@ function getWeather() {
         mm = '0' + mm;
     }
 
-    var url = "http://whateverorigin.org/get?url=" + encodeURIComponent("https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00");
+    var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00";
     var req = new XMLHttpRequest();
     req.open("GET", url, true);
-    console.log(req);
     req.addEventListener("load", function() {
         if (req.readyState == 4 && req.status == 200) {
             var data = JSON.parse(req.responseText).daily.data[0];
