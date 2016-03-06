@@ -19,7 +19,6 @@ function locatePosition(position) {
 }
 
 function createMap(lat, long) {
-    console.log("start")
     if (!lat) {
         latitude = 39.290385;
     } else {
@@ -66,8 +65,7 @@ function createMap(lat, long) {
     autocompleteOutput.addListener('place_changed', function() {
         infowindow.close();
         var place = autocompleteOutput.getPlace();
-        test = place
-        console.log(place)
+        test = place;
         if (!place.geometry) {
             sweetAlert("Oops...", "No results were found for that array", "error");
             return;
@@ -184,7 +182,7 @@ function getDirections() {
         directionsService.route(req, function(result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(result);
-                trip = result.routes[0].legs[0]
+                trip = result.routes[0].legs[0];
                 homeMarker.setMap(null);
                 finalMarker.setMap(null);
             }
@@ -209,11 +207,11 @@ function getWeather() {
     var yyyy = today.getFullYear();
 
     if (dd < 10) {
-        dd = '0' + dd
+        dd = '0' + dd;
     }
 
     if (mm < 10) {
-        mm = '0' + mm
+        mm = '0' + mm;
     }
 
     var url = "https://api.forecast.io/forecast/88e8ca844f0b17a64b8fd82368b332d0/" + finalMarker.position.lat() + "," + finalMarker.position.lng() + "," + yyyy + "-" + mm + "-" + dd + "T12:00:00";
