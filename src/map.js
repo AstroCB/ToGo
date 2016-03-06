@@ -73,7 +73,8 @@ console.log("start")
 test = place
 console.log(place)
         if (!place.geometry) {
-            window.alert("No results found for that place");
+            // window.alert("No results found for that place");
+sweetAlert("Oops...", "No results were found for that array", "error");
             return;
         }
 
@@ -201,6 +202,7 @@ function finalDragEnded(e) {
 }
 
 function getDirections() {
+if(document.getElementById("start-input").value ||document.getElementById("end-input").value ){
     var directionsService = new google.maps.DirectionsService();
     var req = {
         origin: homeMarker.position,
@@ -222,6 +224,9 @@ function getDirections() {
             finalMarker.setMap(null);
         }
     });
+}else{
+sweetAlert("Oops...", "Please enter a starting and ending location", "error");
+}
 }
 
 function getWeather() {
