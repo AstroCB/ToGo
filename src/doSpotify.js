@@ -22,7 +22,6 @@ function findClosest(home, end) {
             closestPlace = [allSpotifyPlaces[i].name, allSpotifyPlaces[i].href];
         }
     }
-    console.log("closest place is " + closestPlace[0])
     return closestPlace;
 
 }
