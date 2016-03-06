@@ -1,32 +1,29 @@
 function doSpotify(home, end) {
     if (gotLat == false) {
-        console.log("is false")
         $.get("https://dl.dropboxusercontent.com/u/24397004/allPlacesLat.json", function(data) {
-            allSpotifyPlaces = JSON.parse(data)
-            gotLat = true
-            findClosest(home, end)
+            allSpotifyPlaces = JSON.parse(data);
+            gotLat = true;
+            findClosest(home, end);
         });
     } else {
-        console.log("is true")
-        findClosest(home, end)
+        findClosest(home, end);
     }
 }
 
 function findClosest(home, end) {
     endLat = end.position.lat();
     endLng = end.position.lng();
-    smallestDist = Number.MAX_SAFE_INTEGER
-    closestPlace = ["Topeka", "https://play.spotify.com/user/thesoundsofspotify/playlist/2VbihVrCxmOnMKtZHngFFH"]
+    smallestDist = Number.MAX_SAFE_INTEGER;
+    closestPlace = ["Topeka", "https://play.spotify.com/user/thesoundsofspotify/playlist/2VbihVrCxmOnMKtZHngFFH"];
     for (var i in allSpotifyPlaces) {
-        tempDist = getDistanceFromLatLonInKm(endLat, endLng, allSpotifyPlaces[i].lat, allSpotifyPlaces[i].ln)
-        // console.log(tempDist)
+        tempDist = getDistanceFromLatLonInKm(endLat, endLng, allSpotifyPlaces[i].lat, allSpotifyPlaces[i].ln);
         if (tempDist < smallestDist) {
-            smallestDist = tempDist
-            closestPlace = [allSpotifyPlaces[i].name, allSpotifyPlaces[i].href]
+            smallestDist = tempDist;
+            closestPlace = [allSpotifyPlaces[i].name, allSpotifyPlaces[i].href];
         }
     }
     console.log("closest place is " + closestPlace[0])
-return closestPlace
+    return closestPlace;
 
 }
 

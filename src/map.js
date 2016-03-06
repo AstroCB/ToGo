@@ -1,12 +1,8 @@
-var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip;
+var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip, gotLat = false;
 
 function initMap() {
-console.log("started init")
+    console.log("started init")
     getLocation();
-    // $("#datepicker").datepicker({
-    //     minDate: 0,
-    //     dateFormat: "mm/dd/yy"
-    // }).datepicker("setDate", new Date());
 }
 
 function getLocation() {
@@ -24,7 +20,7 @@ function locatePosition(position) {
 }
 
 function createMap(lat, long) {
-console.log("start")
+    console.log("start")
     if (!lat) {
         latitude = 39.290385;
     } else {
@@ -45,12 +41,12 @@ console.log("start")
         zoom: 15
     });
     map = newMap;
-    var inputStart =         document.getElementById('start-input')
-    var inputEnd =         document.getElementById('end-input')
-    var inputButton =         document.getElementById('dirButton')
-    var spotifyDiv =         document.getElementById('spotify')
-    var uberDiv =         document.getElementById('uber')
-    var weatherDiv =         document.getElementById('weather')
+    var inputStart = document.getElementById('start-input')
+    var inputEnd = document.getElementById('end-input')
+    var inputButton = document.getElementById('dirButton')
+    var spotifyDiv = document.getElementById('spotify')
+    var uberDiv = document.getElementById('uber')
+    var weatherDiv = document.getElementById('weather')
 
     var types = document.getElementById('type-selector');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputStart);
@@ -67,40 +63,25 @@ console.log("start")
     autocompleteOutput.bindTo('bounds', map);
 
     var infowindow = new google.maps.InfoWindow();
-    // var marker = new google.maps.Marker({
-    //     map: map,
-    //     anchorPoint: new google.maps.Point(0, -29)
-    // });
 
     autocompleteOutput.addListener('place_changed', function() {
         infowindow.close();
-        // marker.setVisible(false);
         var place = autocompleteOutput.getPlace();
-test = place
-console.log(place)
+        test = place
+        console.log(place)
         if (!place.geometry) {
-            // window.alert("No results found for that place");
-sweetAlert("Oops...", "No results were found for that array", "error");
+            sweetAlert("Oops...", "No results were found for that array", "error");
             return;
         }
 
-        // If the place has a geometry, then present it on a map.
         if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport);
         } else {
             map.setCenter(place.geometry.location);
             map.setZoom(17); // Why 17? Because it looks good.
         }
-        // // marker.setIcon( /** @type {google.maps.Icon} */ ({
-        // //     url: place.icon,
-        // //     size: new google.maps.Size(71, 71),
-        // //     origin: new google.maps.Point(0, 0),
-        // //     anchor: new google.maps.Point(17, 34),
-        // //     scaledSize: new google.maps.Size(35, 35)
-        // }));
 
-    finalMarker = createMarker(place.geometry.location.lat(), place.geometry.location.lng(), "to.png");
-    // finalMarker = createMarker(randLat, randLong, "to.png");
+        finalMarker = createMarker(place.geometry.location.lat(), place.geometry.location.lng(), "to.png");
         finalMarker.setPosition(place.geometry.location);
         finalMarker.setVisible(true);
 
@@ -116,10 +97,9 @@ sweetAlert("Oops...", "No results were found for that array", "error");
     });
     autocompleteInput.addListener('place_changed', function() {
         infowindow.close();
-        // marker.setVisible(false);
         var place = autocompleteInput.getPlace();
-test = place
-console.log(place)
+        test = place
+
         if (!place.geometry) {
             window.alert("No results found for that place");
             return;
@@ -132,16 +112,8 @@ console.log(place)
             map.setCenter(place.geometry.location);
             map.setZoom(17); // Why 17? Because it looks good.
         }
-        // // marker.setIcon( /** @type {google.maps.Icon} */ ({
-        // //     url: place.icon,
-        // //     size: new google.maps.Size(71, 71),
-        // //     origin: new google.maps.Point(0, 0),
-        // //     anchor: new google.maps.Point(17, 34),
-        // //     scaledSize: new google.maps.Size(35, 35)
-        // }));
 
-    homeMarker = createMarker(place.geometry.location.lat(), place.geometry.location.lng(), "from.png");
-    // finalMarker = createMarker(randLat, randLong, "to.png");
+        homeMarker = createMarker(place.geometry.location.lat(), place.geometry.location.lng(), "from.png");
         homeMarker.setPosition(place.geometry.location);
         homeMarker.setVisible(true);
 
@@ -160,17 +132,6 @@ console.log(place)
 }
 
 function initializeServices() {
-    // homeMarker = createMarker(map.center.lat(), map.center.lng(), "from.png");
-    // document.getElementById("from").value = map.center.lat() + ", " + map.center.lng();
-
-    // var randLat = map.center.lat() + randomSmallValue(),
-    //     randLong = map.center.lng() + randomSmallValue();
-    // finalMarker = createMarker(randLat, randLong, "to.png");
-    // document.getElementById("to").value = randLat + ", " + randLong;
-
-    // homeMarker.addListener("dragend", homeDragEnded);
-    // finalMarker.addListener("dragend", finalDragEnded);
-
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap(map);
     directionsDisplay.setPanel(document.getElementById("directionsPanel"));
@@ -208,39 +169,37 @@ function finalDragEnded(e) {
 }
 
 function getDirections() {
-if(document.getElementById("start-input").value ||document.getElementById("end-input").value ){
-    var directionsService = new google.maps.DirectionsService();
-    var req = {
-        origin: homeMarker.position,
-        destination: finalMarker.position,
-        provideRouteAlternatives: false,
-        travelMode: google.maps.TravelMode.DRIVING,
-        drivingOptions: {
-            // departureTime: $("#datepicker").datepicker("getDate"),
-            departureTime: new Date(),
-            trafficModel: google.maps.TrafficModel.PESSIMISTIC
-        },
-        unitSystem: google.maps.UnitSystem.IMPERIAL
-    };
-    directionsService.route(req, function(result, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(result);
-            trip = result.routes[0].legs[0]
-            homeMarker.setMap(null);
-            finalMarker.setMap(null);
-        }
-    });
-}else{
-sweetAlert("Oops...", "Please enter a starting and ending location", "error");
-}
+    if (document.getElementById("start-input").value || document.getElementById("end-input").value) {
+        var directionsService = new google.maps.DirectionsService();
+        var req = {
+            origin: homeMarker.position,
+            destination: finalMarker.position,
+            provideRouteAlternatives: false,
+            travelMode: google.maps.TravelMode.DRIVING,
+            drivingOptions: {
+                departureTime: new Date(),
+                trafficModel: google.maps.TrafficModel.PESSIMISTIC
+            },
+            unitSystem: google.maps.UnitSystem.IMPERIAL
+        };
+        directionsService.route(req, function(result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(result);
+                trip = result.routes[0].legs[0]
+                homeMarker.setMap(null);
+                finalMarker.setMap(null);
+            }
+        });
+    } else {
+        sweetAlert("Oops...", "Please enter a starting and ending location", "error");
+    }
 }
 
 function getWeather() {
-    // var date = $("#datepicker").datepicker("getDate");
-    var date = new Date()
+    var date = $("#datepicker").datepicker("getDate");
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
+    var mm = today.getMonth() + 1;
     var yyyy = today.getFullYear();
 
     if (dd < 10) {
@@ -257,16 +216,16 @@ function getWeather() {
     req.addEventListener("load", function() {
         if (req.readyState == 4 && req.status == 200) {
             var data = JSON.parse(req.responseText).daily.data[0];
-            console.log(data);
             var vals = {
                 "Summary": data.summary,
                 "Visibility": data.visibility + " mi",
                 "Precipitation Chance": data.precipProbability * 100 + "%",
                 "Humidity": data.humidity * 100 + "%",
-                "High Temp": data.temperatureMax,
-                "Low Temp": data.temperatureMin
+                "High Temp": Math.round(data.temperatureMax) + "º",
+                "Low Temp": Math.round(data.temperatureMin) + "º"
             };
 
+            $("#weather").html("");
             for (var i in vals) {
                 var innerString = i + ": " + vals[i];
                 if (i === "Summary") {
@@ -279,16 +238,19 @@ function getWeather() {
     req.send(null);
 }
 
-function uber() {
+function getUber() {
     var req = new XMLHttpRequest();
     req.open("GET", "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng());
     req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
     req.addEventListener("load", function() {
         var data = JSON.parse(req.responseText).products;
         for (var i = 0; i < data.length; i++) {
-            console.log(data[i]);
             var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
-            $("#uber").append("<div class='uber'><span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + Math.round(cost * 100) / 100 + "</span></div>");
+            var price = Math.ceil(cost * 100) / 100 + "";
+            if (price.match(/^\d*\.\d$/m)) {
+                price += "0";
+            }
+            $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
         }
     }, false)
     req.send();
