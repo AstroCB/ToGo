@@ -242,9 +242,12 @@ $("#weather").show()
 
 function getUber() {
     var req = new XMLHttpRequest();
-    req.open("GET", "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng());
-    req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
-    req.addEventListener("load", function() {
+    $.ajax({
+      url: "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng(),
+    headers: {
+      "Authorization": "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR"
+    },
+    success: function() {
         var data = JSON.parse(req.responseText).products;
         for (var i = 0; i < data.length; i++) {
             var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
@@ -254,6 +257,6 @@ function getUber() {
             }
             $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
         }
-    }, false)
-    req.send();
+      }
+    });
 }
