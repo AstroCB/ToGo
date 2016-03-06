@@ -9,7 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR-IZFnALoeXLkSfRl746FrqlNZF4bO4&libraries=visualization&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR-IZFnALoeXLkSfRl746FrqlNZF4bO4&libraries=places&callback=initMap"></script>
   <script type="text/javascript" src="skycons.js"></script>
   <script type="text/javascript" src="map.js"></script>
   <script type="text/javascript" src="doSpotify.js"></script>
@@ -44,6 +44,10 @@
     </div>
   </div>
   <br/>
+   <input id="start-input" class="controls" type="text"
+        placeholder="Enter a starting location">
+   <input id="end-input" class="controls" type="text"
+        placeholder="Enter a ending location">
 <div id="weather">
   <div id="uber"></div>
 

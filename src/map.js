@@ -1,6 +1,7 @@
 var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip;
 
 function initMap() {
+console.log("started init")
     getLocation();
     $("#datepicker").datepicker({
         minDate: 0,
@@ -23,6 +24,7 @@ function locatePosition(position) {
 }
 
 function createMap(lat, long) {
+console.log("start")
     if (!lat) {
         latitude = 39.290385;
     } else {
@@ -43,21 +45,122 @@ function createMap(lat, long) {
         zoom: 15
     });
     map = newMap;
+    var inputStart =         document.getElementById('start-input')
+    var inputEnd =         document.getElementById('end-input')
+
+    var types = document.getElementById('type-selector');
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputStart);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputEnd);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+
+    var autocompleteInput = new google.maps.places.Autocomplete(inputStart);
+    var autocompleteOutput = new google.maps.places.Autocomplete(inputEnd);
+    autocompleteInput.bindTo('bounds', map);
+    autocompleteOutput.bindTo('bounds', map);
+
+    var infowindow = new google.maps.InfoWindow();
+    // var marker = new google.maps.Marker({
+    //     map: map,
+    //     anchorPoint: new google.maps.Point(0, -29)
+    // });
+
+    autocompleteOutput.addListener('place_changed', function() {
+        infowindow.close();
+        // marker.setVisible(false);
+        var place = autocompleteOutput.getPlace();
+test = place
+console.log(place)
+        if (!place.geometry) {
+            window.alert("No results found for that place");
+            return;
+        }
+
+        // If the place has a geometry, then present it on a map.
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17); // Why 17? Because it looks good.
+        }
+        // // marker.setIcon( /** @type {google.maps.Icon} */ ({
+        // //     url: place.icon,
+        // //     size: new google.maps.Size(71, 71),
+        // //     origin: new google.maps.Point(0, 0),
+        // //     anchor: new google.maps.Point(17, 34),
+        // //     scaledSize: new google.maps.Size(35, 35)
+        // }));
+
+    finalMarker = createMarker(place.geometry.location.lat(), place.geometry.location.lng(), "to.png");
+    // finalMarker = createMarker(randLat, randLong, "to.png");
+        finalMarker.setPosition(place.geometry.location);
+        finalMarker.setVisible(true);
+
+        var address = '';
+        if (place.address_components) {
+            address = [
+                (place.address_components[0] && place.address_components[0].short_name || ''), (place.address_components[1] && place.address_components[1].short_name || ''), (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+        }
+
+        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+        infowindow.open(map, finalMarker);
+    });
+    autocompleteInput.addListener('place_changed', function() {
+        infowindow.close();
+        // marker.setVisible(false);
+        var place = autocompleteInput.getPlace();
+test = place
+console.log(place)
+        if (!place.geometry) {
+            window.alert("No results found for that place");
+            return;
+        }
+
+        // If the place has a geometry, then present it on a map.
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17); // Why 17? Because it looks good.
+        }
+        // // marker.setIcon( /** @type {google.maps.Icon} */ ({
+        // //     url: place.icon,
+        // //     size: new google.maps.Size(71, 71),
+        // //     origin: new google.maps.Point(0, 0),
+        // //     anchor: new google.maps.Point(17, 34),
+        // //     scaledSize: new google.maps.Size(35, 35)
+        // }));
+
+    homeMarker = createMarker(place.geometry.location.lat(), place.geometry.location.lng(), "from.png");
+    // finalMarker = createMarker(randLat, randLong, "to.png");
+        homeMarker.setPosition(place.geometry.location);
+        homeMarker.setVisible(true);
+
+        var address = '';
+        if (place.address_components) {
+            address = [
+                (place.address_components[0] && place.address_components[0].short_name || ''), (place.address_components[1] && place.address_components[1].short_name || ''), (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+        }
+
+        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+        infowindow.open(map, homeMarker);
+    });
 
     initializeServices();
 }
 
 function initializeServices() {
-    homeMarker = createMarker(map.center.lat(), map.center.lng(), "from.png");
-    document.getElementById("from").value = map.center.lat() + ", " + map.center.lng();
+    // homeMarker = createMarker(map.center.lat(), map.center.lng(), "from.png");
+    // document.getElementById("from").value = map.center.lat() + ", " + map.center.lng();
 
-    var randLat = map.center.lat() + randomSmallValue(),
-        randLong = map.center.lng() + randomSmallValue();
-    finalMarker = createMarker(randLat, randLong, "to.png");
-    document.getElementById("to").value = randLat + ", " + randLong;
+    // var randLat = map.center.lat() + randomSmallValue(),
+    //     randLong = map.center.lng() + randomSmallValue();
+    // finalMarker = createMarker(randLat, randLong, "to.png");
+    // document.getElementById("to").value = randLat + ", " + randLong;
 
-    homeMarker.addListener("dragend", homeDragEnded);
-    finalMarker.addListener("dragend", finalDragEnded);
+    // homeMarker.addListener("dragend", homeDragEnded);
+    // finalMarker.addListener("dragend", finalDragEnded);
 
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap(map);
@@ -149,12 +252,12 @@ function getWeather() {
                 "Low Temp": data.temperatureMin
             };
 
-            for(var i in vals) {
-              var innerString = i + ": " + vals[i];
-              if(i === "Summary") {
-                innerString = vals[i];
-              }
-              $("#weather").append("<span class='weatherItem'>" + innerString + "</span><br/>");
+            for (var i in vals) {
+                var innerString = i + ": " + vals[i];
+                if (i === "Summary") {
+                    innerString = vals[i];
+                }
+                $("#weather").append("<span class='weatherItem'>" + innerString + "</span><br/>");
             }
         }
     }, false);
@@ -162,16 +265,16 @@ function getWeather() {
 }
 
 function uber() {
-  var req = new XMLHttpRequest();
-  req.open("GET", "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng());
-  req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
-  req.addEventListener("load", function() {
-    var data = JSON.parse(req.responseText).products;
-    for(var i = 0; i < data.length; i++) {
-      console.log(data[i]);
-      var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
-      $("#uber").append("<div class='uber'><span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + Math.round(cost * 100)/100 + "</span></div>");
-    }
-  }, false)
-  req.send();
+    var req = new XMLHttpRequest();
+    req.open("GET", "https://sandbox-api.uber.com/v1/products?latitude=" + finalMarker.position.lat() + "&longitude=" + finalMarker.position.lng());
+    req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
+    req.addEventListener("load", function() {
+        var data = JSON.parse(req.responseText).products;
+        for (var i = 0; i < data.length; i++) {
+            console.log(data[i]);
+            var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
+            $("#uber").append("<div class='uber'><span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + Math.round(cost * 100) / 100 + "</span></div>");
+        }
+    }, false)
+    req.send();
 }
