@@ -1,4 +1,4 @@
-var map, lat, long, homeMarker, finalMarker, directionsDisplay;
+var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip;
 
 function initMap() {
     getLocation();
@@ -111,6 +111,7 @@ function getDirections() {
     directionsService.route(req, function(result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(result);
+            trip = result.routes[0].legs[0]
             homeMarker.setMap(null);
             finalMarker.setMap(null);
         }
@@ -166,6 +167,11 @@ function uber() {
   req.setRequestHeader("Authorization", "Token bDqrKzbzcqvlceO6nbdqPOQeG0f1ZaOllg8M_9qR");
   req.addEventListener("load", function() {
     var data = JSON.parse(req.responseText).products;
+    for(var i = 0; i < data.length; i++) {
+      console.log(data[i]);
+      var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
+      $("#uber").append("<div class='uber'><span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + Math.round(cost * 100)/100 + "</span></div>");
+    }
   }, false)
   req.send();
 }

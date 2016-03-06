@@ -21,3 +21,11 @@ label[for=datepicker] {
 #ui-datepicker-div {
   display: none;
 }
+#uber {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.car {
+  width: 50px;
+}
