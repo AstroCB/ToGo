@@ -39,12 +39,12 @@ function createMap(lat, long) {
         zoom: 15
     });
     map = newMap;
-    var inputStart = document.getElementById('start-input')
-    var inputEnd = document.getElementById('end-input')
-    var inputButton = document.getElementById('dirButton')
-    var spotifyDiv = document.getElementById('spotify')
-    var uberDiv = document.getElementById('uber')
-    var weatherDiv = document.getElementById('weather')
+    var inputStart = document.getElementById('start-input');
+    var inputEnd = document.getElementById('end-input');
+    var inputButton = document.getElementById('dirButton');
+    var spotifyDiv = document.getElementById('spotify');
+    var uberDiv = document.getElementById('uber');
+    var weatherDiv = document.getElementById('weather');
 
     var types = document.getElementById('type-selector');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputStart);
