@@ -248,6 +248,7 @@ function getUber() {
         },
         success: function(resp) {
             var data = resp.products;
+            console.log(data);
             for (var i = 0; i < data.length; i++) {
                 var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
                 var price = Math.ceil(cost * 100) / 100 + "";
