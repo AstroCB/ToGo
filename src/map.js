@@ -248,15 +248,16 @@ function getUber() {
         },
         success: function(resp) {
             var data = resp.products;
-            console.log(data);
             for (var i = 0; i < data.length; i++) {
-                var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
-                var price = Math.ceil(cost * 100) / 100 + "";
-                if (price.match(/^\d*\.\d$/m)) {
-                    price += "0";
+                if (data[i].price_details) {
+                    var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
+                    var price = Math.ceil(cost * 100) / 100 + "";
+                    if (price.match(/^\d*\.\d$/m)) {
+                        price += "0";
+                    }
+                    $("#uber").show();
+                    $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
                 }
-                $("#uber").show();
-                $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
             }
         }
     });
