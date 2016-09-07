@@ -39,12 +39,12 @@ function createMap(lat, long) {
         zoom: 15
     });
     map = newMap;
-    var inputStart = document.getElementById('start-input')
-    var inputEnd = document.getElementById('end-input')
-    var inputButton = document.getElementById('dirButton')
-    var spotifyDiv = document.getElementById('spotify')
-    var uberDiv = document.getElementById('uber')
-    var weatherDiv = document.getElementById('weather')
+    var inputStart = document.getElementById('start-input');
+    var inputEnd = document.getElementById('end-input');
+    var inputButton = document.getElementById('dirButton');
+    var spotifyDiv = document.getElementById('spotify');
+    var uberDiv = document.getElementById('uber');
+    var weatherDiv = document.getElementById('weather');
 
     var types = document.getElementById('type-selector');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputStart);
@@ -249,13 +249,15 @@ function getUber() {
         success: function(resp) {
             var data = resp.products;
             for (var i = 0; i < data.length; i++) {
-                var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
-                var price = Math.ceil(cost * 100) / 100 + "";
-                if (price.match(/^\d*\.\d$/m)) {
-                    price += "0";
+                if (data[i].price_details) {
+                    var cost = data[i].price_details.cost_per_minute * (trip.distance.value / 60.0);
+                    var price = Math.ceil(cost * 100) / 100 + "";
+                    if (price.match(/^\d*\.\d$/m)) {
+                        price += "0";
+                    }
+                    $("#uber").show();
+                    $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
                 }
-                $("#uber").show();
-                $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
             }
         }
     });
