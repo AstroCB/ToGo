@@ -256,6 +256,10 @@ function getUber() {
                         price += "0";
                     }
                     $("#uber").show();
+                    var imageURL = data[i].image;
+                    if(imageURL.match("http://")){
+                      imageURL = imageURL.replace("http://", "https://");
+                    }
                     $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image.replace("http://", "https://") + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
                 }
             }
