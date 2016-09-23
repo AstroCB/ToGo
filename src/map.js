@@ -256,6 +256,7 @@ function getUber() {
                         price += "0";
                     }
                     $("#uber").show();
+                    console.log(data[i].image);
                     $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
                 }
             }
