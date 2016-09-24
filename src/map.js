@@ -1,4 +1,4 @@
-var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip, gotLat = false;
+var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip, geoAccuracy, gotLat = false;
 
 function initMap() {
     getLocation();
@@ -15,6 +15,7 @@ function getLocation() {
 }
 
 function locatePosition(position) {
+    geoAccuracy = position.coords.accuracy;
     createMap(position.coords.latitude, position.coords.longitude);
 }
 
@@ -68,7 +69,7 @@ function createMap(lat, long) {
                 lat: latitude,
                 lng: longitude
             },
-            radius: position.coords.accuracy
+            radius: geoAccuracy
         });
         autocompleteInput.setBounds(boundsCircle.getBounds());
         getLocFromCoords(latitude, longitude);
@@ -160,7 +161,7 @@ function gotSuggestions(predictions, status) {
     if (predictions[0] != "ZERO_RESULTS") {
         console.log(predictions[0].places_id);
     } else {
-      console.log("RIP");
+        console.log("RIP");
     }
 }
 
