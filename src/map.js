@@ -63,10 +63,14 @@ function createMap(lat, long) {
 
     // Bias autocomplete toward user's current location & set as default location if available
     if (geoAvailable) {
-        autocompleteInput.setBounds({
-            lat: latitude,
-            lng: longitude
+        var boundsCircle = new google.maps.Circle({
+            center: {
+                lat: latitude,
+                lng: longitude
+            },
+            radius: position.coords.accuracy
         });
+        autocompleteInput.setBounds(boundsCircle.getBounds());
         getLocFromCoords(latitude, longitude);
     }
 
@@ -153,8 +157,8 @@ function gotSuggestions(predictions, status) {
         console.log(status);
         return;
     }
-    if (predictions[0] != "ZERO_RESULTS"){
-      console.log(predictions[0].places_id);
+    if (predictions[0] != "ZERO_RESULTS") {
+        console.log(predictions[0].places_id);
     }
 }
 
