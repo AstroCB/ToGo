@@ -133,7 +133,7 @@ function createMap(lat, long) {
 function getLocFromCoords(latitude, longitude) {
     var autoComplete = new google.maps.places.AutocompleteService();
     autoComplete.getQueryPredictions({
-        input: latitude + ", " + longitude
+        input: "NYU Tandon"
     }, displaySuggestions);
 }
 
