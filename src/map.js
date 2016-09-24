@@ -73,7 +73,8 @@ function createMap(lat, long) {
         });
         autocompleteInput.setBounds(boundsCircle.getBounds());
         var loc = createMarker(latitude, longitude, "from.png");
-        autocompleteInput.setPlace(loc.getPlace());
+        console.log(loc.place_id);
+        autocompleteInput.setPlace(loc.place_id);
     }
 
     var infowindow = new google.maps.InfoWindow();
