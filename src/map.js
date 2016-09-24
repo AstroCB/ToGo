@@ -73,7 +73,7 @@ function createMap(lat, long) {
         });
         autocompleteInput.setBounds(boundsCircle.getBounds());
         var loc = createMarker(latitude, longitude, "from.png");
-        console.log(loc.place_id);
+        console.log(loc);
         autocompleteInput.setPlace(loc.place_id);
     }
 
