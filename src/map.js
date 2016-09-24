@@ -180,7 +180,7 @@ function createMarker(lat, long, image) {
         animation: google.maps.Animation.DROP,
         icon: "images/" + image
     });
-    return mark.getPlace();
+    return mark;
 }
 
 function randomSmallValue() {
