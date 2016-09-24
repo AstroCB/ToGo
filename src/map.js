@@ -98,6 +98,7 @@ function createMap(lat, long) {
         test = place
 
         if (!place.geometry) {
+          alert("YO");
             sweetAlert("Oops...", "No results were found for that place", "error");
             return;
         }
