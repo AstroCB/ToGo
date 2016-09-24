@@ -158,7 +158,7 @@ function createMarker(lat, long, image) {
         map: map,
         draggable: true,
         animation: google.maps.Animation.DROP,
-        icon: "images/" + image
+        icon: "src/images/" + image
     });
     return mark;
 }
