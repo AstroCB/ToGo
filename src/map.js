@@ -1,4 +1,4 @@
-var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip, gotLat = false;
+var map, lat, long, homeMarker, finalMarker, directionsDisplay, trip, geoAccuracy, gotLat = false;
 
 function initMap() {
     getLocation();
@@ -15,10 +15,12 @@ function getLocation() {
 }
 
 function locatePosition(position) {
+    geoAccuracy = position.coords.accuracy;
     createMap(position.coords.latitude, position.coords.longitude);
 }
 
 function createMap(lat, long) {
+    var geoAvailable = lat && long;
     if (!lat) {
         latitude = 39.290385;
     } else {
@@ -60,6 +62,19 @@ function createMap(lat, long) {
     autocompleteInput.bindTo('bounds', map);
     autocompleteOutput.bindTo('bounds', map);
 
+    // Bias autocomplete toward user's current location & set as default location if available
+    if (geoAvailable) {
+        var boundsCircle = new google.maps.Circle({
+            center: {
+                lat: latitude,
+                lng: longitude
+            },
+            radius: geoAccuracy
+        });
+        autocompleteInput.setBounds(boundsCircle.getBounds());
+        // Implement dafault value for "from" based on geolocation once GM API is updated with getPlace() on markers
+    }
+
     var infowindow = new google.maps.InfoWindow();
 
     autocompleteOutput.addListener('place_changed', function() {
@@ -67,7 +82,7 @@ function createMap(lat, long) {
         var place = autocompleteOutput.getPlace();
         test = place;
         if (!place.geometry) {
-            sweetAlert("Oops...", "No results were found for that array", "error");
+            sweetAlert("Oops...", "No results were found for that place", "error");
             return;
         }
 
@@ -98,7 +113,7 @@ function createMap(lat, long) {
         test = place
 
         if (!place.geometry) {
-            window.alert("No results found for that place");
+            sweetAlert("Oops...", "No results were found for that place", "error");
             return;
         }
 
@@ -143,7 +158,7 @@ function createMarker(lat, long, image) {
         map: map,
         draggable: true,
         animation: google.maps.Animation.DROP,
-        icon: "images/" + image
+        icon: "src/images/" + image
     });
     return mark;
 }
@@ -256,7 +271,11 @@ function getUber() {
                         price += "0";
                     }
                     $("#uber").show();
-                    $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + data[i].image + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
+                    var imageURL = data[i].image;
+                    if (imageURL.match("http://")) { // Enforce SSL on image loads
+                        imageURL = imageURL.replace("http://", "https://");
+                    }
+                    $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + imageURL + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
                 }
             }
         }
