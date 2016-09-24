@@ -72,7 +72,8 @@ function createMap(lat, long) {
             radius: geoAccuracy
         });
         autocompleteInput.setBounds(boundsCircle.getBounds());
-        getLocFromCoords(latitude, longitude);
+        var loc = createMarker(latitude, longitude, "from.png");
+        autocompleteInput.setPlace(loc.getPlace());
     }
 
     var infowindow = new google.maps.InfoWindow();
@@ -143,27 +144,23 @@ function createMap(lat, long) {
     initializeServices();
 }
 
-function getLocFromCoords(latitude, longitude) {
-    var autoComplete = new google.maps.places.AutocompleteService();
-    autoComplete.getQueryPredictions({
-        input: {
-            lat: latitude,
-            lng: longitude
-        }
-    }, gotSuggestions);
-}
+// function getLocFromCoords(latitude, longitude) {
+    // var autoComplete = new google.maps.places.AutocompleteService();
+    // autoComplete.getQueryPredictions({
+    //     input: {
+    //         lat: latitude,
+    //         lng: longitude
+    //     }
+    // }, gotSuggestions);
+// }
 
-function gotSuggestions(predictions, status) {
-    if (status != google.maps.places.PlacesServiceStatus.OK) {
-        console.log(status);
-        return;
-    }
-    if (predictions[0] != "ZERO_RESULTS") {
-        console.log(predictions[0].places_id);
-    } else {
-        console.log("RIP");
-    }
-}
+// function gotSuggestions(predictions, status) {
+//     if (status != google.maps.places.PlacesServiceStatus.OK) {
+//         console.log(status); // ZERO_RESULTS
+//         return;
+//     }
+//     console.log(predictions[0].places_id);
+// }
 
 function initializeServices() {
     directionsDisplay = new google.maps.DirectionsRenderer();
