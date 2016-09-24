@@ -72,9 +72,7 @@ function createMap(lat, long) {
             radius: geoAccuracy
         });
         autocompleteInput.setBounds(boundsCircle.getBounds());
-        var loc = createMarker(latitude, longitude, "from.png");
-        console.log(loc);
-        autocompleteInput.setPlace(loc.getPlace().placeId);
+        // Implement dafault value for "from" based on geolocation once GM API is updated with getPlace() on markers
     }
 
     var infowindow = new google.maps.InfoWindow();
@@ -144,24 +142,6 @@ function createMap(lat, long) {
 
     initializeServices();
 }
-
-// function getLocFromCoords(latitude, longitude) {
-    // var autoComplete = new google.maps.places.AutocompleteService();
-    // autoComplete.getQueryPredictions({
-    //     input: {
-    //         lat: latitude,
-    //         lng: longitude
-    //     }
-    // }, gotSuggestions);
-// }
-
-// function gotSuggestions(predictions, status) {
-//     if (status != google.maps.places.PlacesServiceStatus.OK) {
-//         console.log(status); // ZERO_RESULTS
-//         return;
-//     }
-//     console.log(predictions[0].places_id);
-// }
 
 function initializeServices() {
     directionsDisplay = new google.maps.DirectionsRenderer();
