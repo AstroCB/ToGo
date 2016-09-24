@@ -67,7 +67,7 @@ function createMap(lat, long) {
         var place = autocompleteOutput.getPlace();
         test = place;
         if (!place.geometry) {
-            sweetAlert("Oops...", "No results were found for that array", "error");
+            sweetAlert("Oops...", "No results were found for that place", "error");
             return;
         }
 
@@ -98,7 +98,7 @@ function createMap(lat, long) {
         test = place
 
         if (!place.geometry) {
-            window.alert("No results found for that place");
+            sweetAlert("Oops...", "No results were found for that place", "error");
             return;
         }
 
