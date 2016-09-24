@@ -98,7 +98,6 @@ function createMap(lat, long) {
         test = place
 
         if (!place.geometry) {
-          alert("YO");
             sweetAlert("Oops...", "No results were found for that place", "error");
             return;
         }
@@ -125,8 +124,26 @@ function createMap(lat, long) {
         infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
         infowindow.open(map, homeMarker);
     });
+    // Set default location in autocomplete box
+    getLocFromCoords(latitude, longitude)
 
     initializeServices();
+}
+
+function getLocFromCoords(latitude, longitude) {
+    var autoComplete = new google.maps.places.AutocompleteService();
+    autoComplete.getQueryPredictions({
+        input: latitude + ", " + longitude
+    }, displaySuggestions);
+}
+
+function displaySuggestions(predictions, status) {
+    if (status != google.maps.places.PlacesServiceStatus.OK) {
+        console.log(status);
+        return;
+    }
+    console.log(predictions);
+};
 }
 
 function initializeServices() {
@@ -258,8 +275,8 @@ function getUber() {
                     }
                     $("#uber").show();
                     var imageURL = data[i].image;
-                    if(imageURL.match("http://")){
-                      imageURL = imageURL.replace("http://", "https://");
+                    if (imageURL.match("http://")) { // Enforce SSL on image loads
+                        imageURL = imageURL.replace("http://", "https://");
                     }
                     $("#uber").append("<span>" + data[i].display_name + " (<img class='car' src='" + imageURL + "'/>)</span><br/><span>Estimated Cost: $" + price + "</span><br/><br/>");
                 }
