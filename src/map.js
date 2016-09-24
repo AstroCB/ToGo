@@ -159,6 +159,8 @@ function gotSuggestions(predictions, status) {
     }
     if (predictions[0] != "ZERO_RESULTS") {
         console.log(predictions[0].places_id);
+    } else {
+      console.log("RIP");
     }
 }
 
