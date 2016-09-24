@@ -143,7 +143,6 @@ function displaySuggestions(predictions, status) {
         return;
     }
     console.log(predictions);
-};
 }
 
 function initializeServices() {
