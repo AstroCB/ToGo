@@ -153,7 +153,7 @@ function gotSuggestions(predictions, status) {
         console.log(status);
         return;
     }
-    if (predictions[0] != "NO PLACES FOUND"){
+    if (predictions[0] != "ZERO_RESULTS"){
       console.log(predictions[0].places_id);
     }
 }
