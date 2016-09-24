@@ -19,6 +19,7 @@ function locatePosition(position) {
 }
 
 function createMap(lat, long) {
+    var geoAvailable = lat && long;
     if (!lat) {
         latitude = 39.290385;
     } else {
@@ -59,6 +60,15 @@ function createMap(lat, long) {
     var autocompleteOutput = new google.maps.places.Autocomplete(inputEnd);
     autocompleteInput.bindTo('bounds', map);
     autocompleteOutput.bindTo('bounds', map);
+
+    // Bias autocomplete toward user's current location & set as default location if available
+    if (geoAvailable) {
+        autocompleteInput.setBounds({
+            lat: latitude,
+            lng: longitude
+        });
+        getLocFromCoords(latitude, longitude);
+    }
 
     var infowindow = new google.maps.InfoWindow();
 
@@ -124,8 +134,6 @@ function createMap(lat, long) {
         infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
         infowindow.open(map, homeMarker);
     });
-    // Set default location in autocomplete box
-    getLocFromCoords(latitude, longitude)
 
     initializeServices();
 }
@@ -133,16 +141,19 @@ function createMap(lat, long) {
 function getLocFromCoords(latitude, longitude) {
     var autoComplete = new google.maps.places.AutocompleteService();
     autoComplete.getQueryPredictions({
-        input: "NYU Tandon"
-    }, displaySuggestions);
+        input: {
+            lat: latitude,
+            lng: longitude
+        }
+    }, gotSuggestions);
 }
 
-function displaySuggestions(predictions, status) {
+function gotSuggestions(predictions, status) {
     if (status != google.maps.places.PlacesServiceStatus.OK) {
         console.log(status);
         return;
     }
-    console.log(predictions);
+    if (predictions[0] != )
 }
 
 function initializeServices() {
